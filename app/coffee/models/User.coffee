@@ -13,6 +13,12 @@ UserSchema = new Schema
 		name 		: String
 		email 		: String
 	}
+	plm					: {
+		id 			:String
+		uid 		:String
+		email		:String
+		displayName	:String
+	}
 	email             : {type : String, default : ''}
 	first_name        : {type : String, default : ''}
 	last_name         : {type : String, default : ''}
@@ -60,7 +66,7 @@ UserSchema = new Schema
 					hadFreeTrial: {type: Boolean, default: false}
 
 UserSchema.statics.getAllIds = (callback)->
-	this.find {}, ["first_name"], callback
+	this.find {}, ["email"], callback
 
 
 UserSchema.statics.findReadOnlyProjects = (user_id, callback)->

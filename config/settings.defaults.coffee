@@ -1,5 +1,6 @@
 Path = require('path')
 http = require('http')
+fs = require('fs')
 http.globalAgent.maxSockets = 300
 
 # Make time interval config easier.
@@ -16,10 +17,22 @@ httpAuthUsers[httpAuthUser] = httpAuthPass
 sessionSecret = "$"
 
 module.exports =
+	httpsOptions :
+		key : fs.readFileSync '/config/server.key','utf8'
+		cert: fs.readFileSync '/config/server.crt','utf8'
+
 	googleAuth	:
 		clientID		: '496201282373-nf8hsmkr29m03pj4aa01qgmg7fedt3b8.apps.googleusercontent.com'
 		clientSecret	: 'bsQJIw-BaEvY3crWfM33qcBq'
-		callbackURL		: 'http://127.0.0.1:3000/auth/google/callback'
+		callbackURL		: 'https://127.0.0.1:3000/auth/google/callback'
+
+	#
+	plmAuth :
+		authorizationURL: 'https://plm.math.cnrs.fr/sp/oauth/authorize'
+		tokenURL		: 'https://plm.math.cnrs.fr/sp/oauth/token'
+		clientID		: 'de8284c6c7ed17712008e612ef26712934bc34516574ddbc3276957ec71a8442'
+		clientSecret	: '156fa63b3458b2ab7c73e07a8d89d57e2e473b518f0ed0e92306639b04db9c05'
+		callbackURL		: 'https://localhost:3000/auth/plm/callback'
 	
 	# File storage
 	# ------------

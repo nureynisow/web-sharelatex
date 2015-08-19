@@ -13,24 +13,19 @@ module.exports = AuthenticationManager =
 		User.findOne query, (error, user) =>
 			return callback(error) if error?
 			if user?
-				console.log 'user? >> true'
-				if user.google?
-					console.log 'user google'
+				if user.google? || user.plm?
 					callback null, user
 				else
 					if user.hashedPassword?
 						bcrypt.compare password, user.hashedPassword, (error, match) ->
 							return callback(error) if error?
 							if match
-								console.log 'match? >> true'
 								callback null, user
 							else
-								console.log 'match? >> false'
 								callback null, null
 					else
 						callback null, null
 			else
-				console.log 'user? >> false'
 				callback null, null
 
 	setUserPassword: (user_id, password, callback = (error) ->) ->

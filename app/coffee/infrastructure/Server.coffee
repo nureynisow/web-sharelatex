@@ -134,7 +134,9 @@ apiRouter.get "/profile", (req, res) ->
 	, time
 
 logger.info ("creating HTTP server").yellow
-server = require('http').createServer(app)
+
+
+server = require('https').createServer(Settings.httpsOptions,app)
 
 # process api routes first, if nothing matched fall though and use
 # web middlewear + routes

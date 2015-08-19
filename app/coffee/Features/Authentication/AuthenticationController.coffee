@@ -23,11 +23,10 @@ module.exports = AuthenticationController =
 					message:
 						text: req.i18n.translate("to_many_login_requests_2_mins"),
 						type: 'error'
-			
+			console.log 'email',email
 			AuthenticationManager.authenticate email: email, password, (error, user) ->
 				return next(error) if error?
 				if user?
-					console.log '>>>>> User not empty'	
 					LoginRateLimiter.recordSuccessfulLogin email
 					AuthenticationController._recordSuccessfulLogin user._id
 					AuthenticationController.establishUserSession req , user, (error) ->
@@ -35,12 +34,11 @@ module.exports = AuthenticationController =
 						req.session.justLoggedIn = true
 						logger.log email: email, user_id: user._id.toString(), "successful log in"
 						console.log 'redir = ',redir
-						if(user.google?)
+						if user.google? || user.plm?
 							res.redirect '/project'
 						else
 							res.send redir: redir
 				else
-					console.log '>>>>> User empty'	
 					AuthenticationController._recordFailedLogin()
 					logger.log email: email, "failed log in"
 					res.send message:

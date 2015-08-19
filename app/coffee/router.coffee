@@ -52,8 +52,15 @@ module.exports = class Router
 		webRouter.get  '/auth/google/callback', 
 			passport.authenticate('google', {failureRedirect : '/login'}),
 			(req, res)->
+				req.body = req.user
 				AuthenticationController.login(req,res)
 
+		webRouter.get '/auth/plm', passport.authenticate('plm')
+		webRouter.get '/auth/plm/callback',
+			passport.authenticate('plm',{failureRedirect : '/login'}),
+			(req, res)->
+				req.body = req.user
+				AuthenticationController.login(req,res)
 				
 
 
