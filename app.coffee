@@ -26,7 +26,9 @@ if Settings.catchErrors
 	process.removeAllListeners "uncaughtException"
 	process.on "uncaughtException", (error) ->
 		logger.error err: error, "uncaughtException"
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 port = Settings.port or Settings.internal?.web?.port or 3000
 host = Settings.internal.web.host or "localhost"
 Server.server.listen port, host, ->

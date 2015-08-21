@@ -23,24 +23,18 @@ module.exports = (passport) ->
 	},(token,secretToken,profile,done)->
 			process.nextTick ()->
 				profile = JSON.parse(profile);
-				# console.log "profile",profile
-				User.findOne {'plm.id':profile.id},(err,user)->
+				User.findOne {'email':profile.email},(err,user)->
 					if err
 						done err
 					if user 
-						# console.log 'user exist',user
 						done null,user
 					else
-						# console.log 'creating user '+profile.class
 						newUser = new User
-						newUser.plm.id = profile.id
-						newUser.plm.uid = profile.uid
-						newUser.plm.email  = profile.email
 						newUser.email = profile.email
-						newUser.plm.displayName =  profile.convergence_data.displayName
 						newUser.first_name = profile.convergence_data.CN
 						newUser.last_name = profile.convergence_data.SN
 						newUser.confirmed = true
+						newUser.passport = true
 						newUser.save (err)->
 							if err
 								throw err
@@ -53,20 +47,19 @@ module.exports = (passport) ->
     	clientSecret	: configAuth.googleAuth.clientSecret
     	callbackURL		: configAuth.googleAuth.callbackURL
 	},(token,secretToken,profile,done)->
-			# console.log req, res, profile
+			console.log "profile",profile
 			process.nextTick ()->
-				User.findOne {'google.id' : profile.id}, (err,user)->
+				User.findOne {'email' : profile.emails[0].value}, (err,user)->
 					if err
 						done err
 					if user
 						done null,user
 					else
 						newUser = new User
-						newUser.google.id = profile.id
-						newUser.google.name = newUser.first_name = profile.displayName
-						newUser.google.email = newUser.email = profile.emails[0].value
-						newUser.google.token = token
+						newUser.first_name = profile.displayName
+						newUser.email = profile.emails[0].value
 						newUser.confirmed = true
+						newUser.passport = true
 
 						newUser.save (err)->
 							if err

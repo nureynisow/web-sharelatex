@@ -14,25 +14,27 @@ httpAuthPass = "password"
 httpAuthUsers = {}
 httpAuthUsers[httpAuthUser] = httpAuthPass
 
-sessionSecret = "$"
+sessionSecret = "secret-please-change"
+
 
 module.exports =
 	httpsOptions :
-		key : fs.readFileSync '/config/server.key','utf8'
-		cert: fs.readFileSync '/config/server.crt','utf8'
+		key : fs.readFileSync '/etc/ssl/private/sharelatex.math.cnrs.fr.key','utf8'
+		cert: fs.readFileSync '/etc/ssl/certs/cert-23479-sharelatex.math.cnrs.fr.pem','utf8'
 
+#		=============================
+#		==  Modify these fields(v) ==
+#		=============================
 	googleAuth	:
-		clientID		: '496201282373-nf8hsmkr29m03pj4aa01qgmg7fedt3b8.apps.googleusercontent.com'
-		clientSecret	: 'bsQJIw-BaEvY3crWfM33qcBq'
-		callbackURL		: 'https://127.0.0.1:3000/auth/google/callback'
-
-	#
+		clientID		: '496201282373-nf8hsmkr29m03pj4aa01qgmg7fedt3b8.apps.googleusercontent.com' 
+		clientSecret		: 'bsQJIw-BaEvY3crWfM33qcBq'
+		callbackURL		: 'https://sharelatex.math.cnrs.fr/auth/google/callback'	
 	plmAuth :
 		authorizationURL: 'https://plm.math.cnrs.fr/sp/oauth/authorize'
 		tokenURL		: 'https://plm.math.cnrs.fr/sp/oauth/token'
-		clientID		: 'de8284c6c7ed17712008e612ef26712934bc34516574ddbc3276957ec71a8442'
-		clientSecret	: '156fa63b3458b2ab7c73e07a8d89d57e2e473b518f0ed0e92306639b04db9c05'
-		callbackURL		: 'https://localhost:3000/auth/plm/callback'
+		clientID		: 'ae46d188a7a9f7626e473f3c17051553df7914d7dabb175f032b6914f7d5d9c7'
+		clientSecret	: '6aa8182896fba5326713732aa0e8c0ce5d36296386395e55ab9e46755423e408'
+		callbackURL		: 'https://sharelatex.math.cnrs.fr/auth/plm/callback'
 	
 	# File storage
 	# ------------
@@ -252,7 +254,7 @@ module.exports =
 
 	# If you are running ShareLaTeX over https, set this to true to send the
 	# cookie with a secure flag (recommended).
-	secureCookie: false
+	secureCookie: true
 
 	# If you are running ShareLaTeX behind a proxy (like Apache, Nginx, etc)
 	# then set this to true to allow it to correctly detect the forwarded IP

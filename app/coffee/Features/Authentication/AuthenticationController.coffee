@@ -15,6 +15,7 @@ module.exports = AuthenticationController =
 		email = req.body?.email?.toLowerCase()
 		password = req.body?.password
 		redir = Url.parse(req.body?.redir or "/project").path
+		passport = req.passport
 		LoginRateLimiter.processLoginRequest email, (err, isAllowed)->
 			if !isAllowed
 				logger.log email:email, "too many login requests"
@@ -23,8 +24,8 @@ module.exports = AuthenticationController =
 					message:
 						text: req.i18n.translate("to_many_login_requests_2_mins"),
 						type: 'error'
-			console.log 'email',email
-			AuthenticationManager.authenticate email: email, password, (error, user) ->
+			console.log 'email',email,passport
+			AuthenticationManager.authenticate email: email, password, passport, (error, user) ->
 				return next(error) if error?
 				if user?
 					LoginRateLimiter.recordSuccessfulLogin email
@@ -34,7 +35,7 @@ module.exports = AuthenticationController =
 						req.session.justLoggedIn = true
 						logger.log email: email, user_id: user._id.toString(), "successful log in"
 						console.log 'redir = ',redir
-						if user.google? || user.plm?
+						if user.passport?
 							res.redirect '/project'
 						else
 							res.send redir: redir

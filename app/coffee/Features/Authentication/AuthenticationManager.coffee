@@ -5,7 +5,7 @@ crypto = require 'crypto'
 bcrypt = require 'bcrypt'
 
 module.exports = AuthenticationManager =
-	authenticate: (query, password, callback = (error, user) ->) ->
+	authenticate: (query, password, passport, callback = (error, user) ->) ->
 		# Using Mongoose for legacy reasons here. The returned User instance
 		# gets serialized into the session and there may be subtle differences
 		# between the user returned by Mongoose vs mongojs (such as default values)
@@ -13,7 +13,7 @@ module.exports = AuthenticationManager =
 		User.findOne query, (error, user) =>
 			return callback(error) if error?
 			if user?
-				if user.google? || user.plm?
+				if passport? and user.passport?
 					callback null, user
 				else
 					if user.hashedPassword?

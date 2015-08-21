@@ -53,6 +53,7 @@ module.exports = class Router
 			passport.authenticate('google', {failureRedirect : '/login'}),
 			(req, res)->
 				req.body = req.user
+				req.passport = true
 				AuthenticationController.login(req,res)
 
 		webRouter.get '/auth/plm', passport.authenticate('plm')
@@ -60,6 +61,7 @@ module.exports = class Router
 			passport.authenticate('plm',{failureRedirect : '/login'}),
 			(req, res)->
 				req.body = req.user
+				req.passport = true
 				AuthenticationController.login(req,res)
 				
 

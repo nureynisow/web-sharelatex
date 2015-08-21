@@ -46,7 +46,7 @@ app = express()
 # ===================================
 # =============== PASSPORT ==========
 passport = require('passport')
-# console.log('>> ',passport)
+console.log('>> passport',passport)
 require('../Features/Authentication/AuthenticationPassport')(passport)
 app.use session({secret: Settings.security.sessionSecret})
 app.use(passport.initialize())
@@ -136,7 +136,7 @@ apiRouter.get "/profile", (req, res) ->
 logger.info ("creating HTTP server").yellow
 
 
-server = require('https').createServer(Settings.httpsOptions,app)
+server = require('http').createServer(app)
 
 # process api routes first, if nothing matched fall though and use
 # web middlewear + routes
