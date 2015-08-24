@@ -13,7 +13,6 @@ module.exports = (passport) ->
 		User.findById id,(err,user)->
 			done err,user
 
-
 	passport.use 'plm', new PLMStrategy {
 		authorizationURL	: configAuth.plmAuth.authorizationURL
 		tokenURL			: configAuth.plmAuth.tokenURL
@@ -39,8 +38,6 @@ module.exports = (passport) ->
 							if err
 								throw err
 							done null,newUser
-
-
 
 	passport.use new GoogleStrategy {
     	clientID		: configAuth.googleAuth.clientID,

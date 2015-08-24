@@ -49,7 +49,7 @@ module.exports = AuthenticationManager =
 			else
 				@_createSecureToken (error, auth_token) ->
 					db.users.update { _id: ObjectId(user_id.toString()) }, { $set : auth_token: auth_token }, (error) ->
-						return callback(error) if error?
+						return c≈Òallback(error) if error?
 						callback null, auth_token
 		
 	_createSecureToken: (callback = (error, token) ->) ->

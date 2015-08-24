@@ -9,7 +9,6 @@ Url = require("url")
 Settings = require "settings-sharelatex"
 basicAuth = require('basic-auth-connect')
 
-
 module.exports = AuthenticationController =
 	login: (req, res, next = (error) ->) ->
 		email = req.body?.email?.toLowerCase()
@@ -45,8 +44,6 @@ module.exports = AuthenticationController =
 					res.send message:
 						text: req.i18n.translate("email_or_password_wrong_try_again"),
 						type: 'error'
-
-		
 
 	getAuthToken: (req, res, next = (error) ->) ->
 		AuthenticationController.getLoggedInUserId req, (error, user_id) ->
